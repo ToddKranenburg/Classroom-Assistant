@@ -7,7 +7,7 @@ function App() {
       <SummaryGenerator />
       <footer>
         <p>
-          🔒 All processing happens locally. No audio or transcript is uploaded or stored.
+          🔒 No data is stored in our servers beyond runtime, but it is shared with OpenAI for transcription and summarization. Please be sure you comply with privacy laws when uploading audio.
         </p>
       </footer>
     </div>
