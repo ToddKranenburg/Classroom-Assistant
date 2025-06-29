@@ -1,81 +1,83 @@
+// SummaryGenerator.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
 function SummaryGenerator() {
   const [transcript, setTranscript] = useState('');
-  const [summary, setSummary] = useState('');
+  const [showFullTranscript, setShowFullTranscript] = useState(false);
+  const [summary, setSummary] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState('');
-  const [file, setFile] = useState(null);
 
   const handleFileUpload = async (e) => {
-    const selectedFile = e.target.files[0];
-    if (!selectedFile) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
     setIsLoading(true);
     setTranscript('');
-    setSummary('');
+    setSummary(null);
     setProgress('Transcribing…');
-    setFile(selectedFile);
 
     try {
       const formData = new FormData();
-      formData.append('file', selectedFile);
+      formData.append('file', file);
 
       const transcriptionRes = await axios.post('http://localhost:3001/api/transcribe', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      setTranscript(transcriptionRes.data.transcript);
+      const transcriptText = transcriptionRes.data.transcript;
+      setTranscript(transcriptText);
+      setProgress('Summarizing…');
+
+      const summaryRes = await axios.post('http://localhost:3001/api/summarize', { transcript: transcriptText });
+      setSummary(summaryRes.data);
     } catch (err) {
-      console.error('Error during transcription:', err);
-      setTranscript('(error during transcription)');
+      console.error('Error during upload:', err);
+      setTranscript('(error during transcription/summarization)');
     }
 
     setIsLoading(false);
     setProgress('');
   };
 
-  const handleSummarize = async () => {
-    if (!transcript) return;
-    setIsLoading(true);
-    setProgress('Summarizing…');
-
-    try {
-      const summaryRes = await axios.post('http://localhost:3001/api/summarize', { transcript });
-      setSummary(summaryRes.data.summary);
-    } catch (err) {
-      console.error('Error during summarization:', err);
-      setSummary('(error during summarization)');
-    }
-
-    setIsLoading(false);
-    setProgress('');
-  };
+  const MAX_CHARS = 300;
+  const shortTranscript = transcript.length > MAX_CHARS ? transcript.slice(0, MAX_CHARS) + '…' : transcript;
 
   return (
     <div style={{ padding: '1rem', fontFamily: 'sans-serif' }}>
       <h2>🎙️ Upload Class Audio</h2>
       <input type="file" accept="audio/*" onChange={handleFileUpload} />
       {isLoading && <p>⏳ {progress}</p>}
-
       {transcript && (
         <div style={{ marginTop: '1rem', border: '1px solid #ddd', padding: '1rem' }}>
           <h3>📝 Transcript</h3>
-          <p>{transcript}</p>
+          <p>{showFullTranscript ? transcript : shortTranscript}</p>
+          {transcript.length > MAX_CHARS && (
+            <button onClick={() => setShowFullTranscript(!showFullTranscript)}>
+              {showFullTranscript ? 'Hide Full Transcript' : 'See Full Transcript'}
+            </button>
+          )}
         </div>
       )}
-
-      {transcript && !isLoading && (
-        <button onClick={handleSummarize} style={{ marginTop: '1rem' }}>
-          📋 Summarize
-        </button>
-      )}
-
       {summary && (
-        <div style={{ marginTop: '1rem', border: '1px solid #ccc', padding: '1rem' }}>
-          <h3>📋 Summary</h3>
-          <p>{summary}</p>
+        <div style={{ marginTop: '1rem', border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
+          <h2>📚 What We Did Today</h2>
+          <ul>
+            <li><strong>Topic:</strong> {summary.topic}</li>
+            <li><strong>Activities:</strong> {summary.activities}</li>
+            <li><strong>Skills Focus:</strong> {summary.skills}</li>
+          </ul>
+
+          <h3>📝 What You Missed</h3>
+          <ol>
+            {summary.missed.map((item, idx) => <li key={idx}>{item}</li>)}
+          </ol>
+
+          <h3>✅ What To Do</h3>
+          <ul>
+            {summary.todo.map((item, idx) => <li key={idx}>{item}</li>)}
+          </ul>
         </div>
       )}
     </div>
