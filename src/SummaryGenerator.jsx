@@ -63,21 +63,18 @@ function SummaryGenerator() {
       {summary && (
         <div style={{ marginTop: '1rem', border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
           <h2>📚 What We Did Today</h2>
+
+          <h3>📎 Required Materials</h3>
           <ul>
-            <li><strong>Topic:</strong> {summary.topic}</li>
-            <li><strong>Activities:</strong> {summary.activities}</li>
-            <li><strong>Skills Focus:</strong> {summary.skills}</li>
+            {summary.materials.map((item, idx) => <li key={idx}>{item}</li>)}
           </ul>
 
           <h3>📝 What You Missed</h3>
           <ol>
-            {summary.missed.map((item, idx) => <li key={idx}>{item}</li>)}
+            {summary.activities.map((item, idx) => <li key={idx}>{item}</li>)}
           </ol>
 
-          <h3>✅ What To Do</h3>
-          <ul>
-            {summary.todo.map((item, idx) => <li key={idx}>{item}</li>)}
-          </ul>
+
         </div>
       )}
     </div>

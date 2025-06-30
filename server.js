@@ -52,10 +52,9 @@ app.post('/api/summarize', async (req, res) => {
   }
 
   const prompt = `From the following classroom transcript, extract:
-1. A short topic/title (string)
-2. A clear list of what an absent student missed (list)
-3. What the student should do to catch up (list)
-Format your response as a JSON object with keys: topic, objectives, missed, todo.
+1. A list of all required texts (e.g. short story, speech, poem, novel, etc...) or other materials (worksheets, handouts, links, videos, etc...) students need for the lesson. Give them short, clear descriptive names. (array of strings)
+2. A clear list of the activities completed in class, each written in brief sentences, with references to anchor texts/content and/or required materials (array of strings)
+Format your response as a JSON object with keys: materials, activities
 
 Transcript:
 """
