@@ -64,14 +64,14 @@ function SummaryGenerator() {
         <div style={{ marginTop: '1rem', border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
           <h2>📚 What We Did Today</h2>
 
-          <h3>📎 Required Materials</h3>
+          <h3>📝 Class Activities</h3>
           <ul>
-            {summary.materials.map((item, idx) => <li key={idx}>{item}</li>)}
+            {summary.class_activities.map((item, idx) => <li key={idx}>{item}</li>)}
           </ul>
 
-          <h3>📝 What You Missed</h3>
+          <h3>Make-Up Assignment</h3>
           <ol>
-            {summary.activities.map((item, idx) => <li key={idx}>{item}</li>)}
+            {summary.assignment_activities.map((item, idx) => <li key={idx}>{item}</li>)}
           </ol>
 
 
