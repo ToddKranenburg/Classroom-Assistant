@@ -23,9 +23,43 @@ function CategoryTimeline({ timeline }) {
                 flexGrow: duration,
                 background: getColor(seg.category),
                 borderRight: idx < timeline.length - 1 ? '2px solid #fff' : 'none',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#fff',
+                fontWeight: 'bold',
+                fontSize: 12,
+                overflow: 'hidden',
+                whiteSpace: 'nowrap'
               }}
-            />
+            >
+              {seg.category}
+            </div>
+          );
+        })}
+      </div>
+      {/* Timestamp labels for each segment */}
+      <div style={{ display: 'flex', marginTop: 4 }}>
+        {timeline.map((seg, idx) => {
+          const duration = seg.end_minute - seg.start_minute;
+          return (
+            <div
+              key={idx}
+              style={{
+                flexGrow: duration,
+                textAlign: 'center',
+                fontSize: 11,
+                color: '#555'
+              }}
+            >
+              <span>
+                {seg.start_minute}
+                {seg.start_minute !== seg.end_minute
+                  ? `–${seg.end_minute} min`
+                  : ` min`}
+              </span>
+            </div>
           );
         })}
       </div>
