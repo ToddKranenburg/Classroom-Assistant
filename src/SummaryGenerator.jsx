@@ -1,6 +1,7 @@
 // SummaryGenerator.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import CategoryBreakdownChart from './CategoryBreakdownChart';
 
 function SummaryGenerator() {
   const [transcript, setTranscript] = useState('');
@@ -66,6 +67,10 @@ function SummaryGenerator() {
 
           <h3>📝 Class Summary</h3>
             {summary.class_summary}
+
+
+          {/* Add this below the assignment section */}
+          <CategoryBreakdownChart breakdown={summary.category_breakdown} />
 
           <h3>Make-Up Assignment</h3>
           <ol>
