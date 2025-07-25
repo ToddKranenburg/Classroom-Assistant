@@ -27,10 +27,12 @@ function CategoryBreakdownChart({ breakdown }) {
     ],
   };
 
-  // Disable datalabels plugin so values do not appear on chart
   const chartOptions = {
     plugins: {
       datalabels: {
+        display: false
+      },
+      legend: {
         display: false
       },
       tooltip: {
@@ -38,17 +40,47 @@ function CategoryBreakdownChart({ breakdown }) {
           label: function(context) {
             const label = context.label || '';
             const value = context.parsed || 0;
-            return `${value} mins`;
+            return `${label}: ${value} mins`;
           }
         }
       }
     }
   };
 
+  // Legend table component
+  const LegendTable = () => (
+    <table style={{ marginLeft: 24, fontSize: 14, borderSpacing: 0 }}>
+      <tbody>
+        {labels.map((label, idx) => (
+          <tr key={label}>
+            <td>
+              <span
+                style={{
+                  display: 'inline-block',
+                  width: 32,
+                  height: 16,
+                  borderRadius: 4,
+                  background: getColor(label),
+                  marginRight: 8,
+                  verticalAlign: 'middle'
+                }}
+              />
+            </td>
+            <td style={{ paddingRight: 8 }}>{label}</td>
+            <td style={{ fontWeight: 'bold' }}>{breakdown[label]} min</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+
   return (
-    <div style={{ maxWidth: 400, margin: '2rem auto' }}>
-      <h3>⏱️ Minutes per Activity</h3>
-      <Pie data={chartData} options={chartOptions} />
+    <div style={{ maxWidth: 600, margin: '2rem auto', display: 'flex', alignItems: 'flex-start', gap: 24 }}>
+      <div style={{ flex: '0 0 200px' }}>
+        <h3>⏱️ Minutes per Activity</h3>
+        <Pie data={chartData} options={chartOptions} />
+      </div>
+      <LegendTable />
     </div>
   );
 }

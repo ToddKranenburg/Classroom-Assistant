@@ -79,7 +79,24 @@ ${transcript}
     });
 
     const parsed = JSON.parse(completion.choices[0].message.content);
-    console.log('Parsed summary:', parsed);
+
+    // Ensure all categories are present in category_breakdown
+    const allCategories = [
+      "Direct Instruction",
+      "Student Practice",
+      "Discussion & Dialogue",
+      "Feedback & Assessment",
+      "Setup",
+      "Interruptions",
+      "Other"
+    ];
+    parsed.category_breakdown = parsed.category_breakdown || {};
+    allCategories.forEach(cat => {
+      if (!(cat in parsed.category_breakdown)) {
+        parsed.category_breakdown[cat] = 0;
+      }
+    });
+
     res.json(parsed);
   } catch (err) {
     console.error('❌ Summarization error:', err);

@@ -2,7 +2,7 @@
 
 A web app that records classroom audio, transcribes it using OpenAI Whisper, provides a breakdown of how time was spent, and generates a summary using GPT for students who were absent.
 
-![My cat](./public/Preview%20-%207:25:25.png)
+![My cat](./public/Preview.png)
 
 ## Stack
 - Frontend: HTML + JS (Vite)
