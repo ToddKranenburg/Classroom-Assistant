@@ -52,9 +52,9 @@ app.post('/api/summarize', async (req, res) => {
   }
 
   const prompt = `From the following classroom transcript:
-  1. Extract a clear list of the activities completed in the lesson, each written in brief sentences, with references to anchor texts/content and/or required materials (array of strings)
+  1. Give a quick summary of the lesson, making it clear what the learning goal was and how they got their. It should be written at an appropriate text level for a 9th grader who missed the lesson. (one string)
   2. Consider the targeted learning objectives in the lesson and come up with a ~10-15 at-home activity that a student who missed class could do at home on their own to catch up on what the rest of the class learned. Structure it as a list of instructures (array of strings) 
-Format your response as a JSON object with keys: class_activities, assignment_activities
+Format your response as a JSON object with keys: class_summary, assignment_activities
 
 Transcript:
 """
