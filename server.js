@@ -54,16 +54,17 @@ app.post('/api/summarize', async (req, res) => {
   const prompt = `From the following classroom transcript:
   1. Give a quick summary of the lesson, making it clear what the learning goal was and how they got there. It should be written at an appropriate text level for a 9th grader who missed the lesson. (one string)
   2. Consider the targeted learning objectives in the lesson and come up with a ~10-15 minute at-home activity that a student who missed class could do at home on their own to catch up on what the rest of the class learned. Structure it as a list of instructions (array of strings).
-  3. Estimate the total time spent in each of the following categories, in minutes, based on the transcript. Return as an object with keys matching the categories below and integer values (minutes). If unsure, make your best guess based on the transcript. Categories:
+  3. Estimate the total time spent in each of the following categories, in minutes, based on the transcript. Return as an object with keys matching the categories below and integer values (minutes).
     - Direct Instruction (Teacher-led explanation, modeling, lecture, or demonstration of new content or procedures.)
-    - Student Practice (Activities where students engage with the material, practice skills, or apply concepts.)
-    - Discussion & Dialogue (Whole-class or small-group discussions, student-to-student dialogue, or Q&A sessions.)
-    - Feedback & Assessment (Formative assessments, quizzes, or feedback provided to students on their work.)
-    - Setup (Time spent preparing for the lesson, including setting up materials or technology.)
-    - Interruptions (Unplanned events that disrupt the flow of the lesson, such as misbehavior, fire drills or technical issues.)
-    - Other
+    - Student Practice (Students working independently or in groups on exercises, problems, or tasks related to the lesson content.)
+    - Discussion & Dialogue (Class discussions, student questions, and teacher responses that facilitate understanding of the content.)
+    - Feedback & Assessment (Activities related to assessing student understanding and providing feedback.)
+    - Setup (Time spent preparing for the lesson, including setting up materials and technology.)
+    - Interruptions (Unplanned events that disrupt the flow of the lesson.)
+    - Other (Any other activities that don't fit into the categories above.)
+  4. Divide the lesson into 1-minute intervals (or as close as possible) and, for each interval, estimate which category (from above) was most prominent. Return this as an array of objects, each with keys: start_minute, end_minute, category. It's possible for the same category to appear more than once over the course of the lesson.
 
-Format your response as a JSON object with keys: class_summary, assignment_activities, category_breakdown
+Format your response as a JSON object with keys: class_summary, assignment_activities, category_breakdown, category_timeline
 
 Transcript:
 """
@@ -78,6 +79,7 @@ ${transcript}
     });
 
     const parsed = JSON.parse(completion.choices[0].message.content);
+    console.log('Parsed summary:', parsed);
     res.json(parsed);
   } catch (err) {
     console.error('❌ Summarization error:', err);

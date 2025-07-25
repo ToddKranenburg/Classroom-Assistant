@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
+import { categoryColors } from './categoryColors';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -15,9 +16,7 @@ function CategoryBreakdownChart({ breakdown }) {
     datasets: [
       {
         data,
-        backgroundColor: [
-          '#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#b07aa1'
-        ],
+        backgroundColor: labels.map(label => categoryColors[label] || '#ccc'),
       },
     ],
   };

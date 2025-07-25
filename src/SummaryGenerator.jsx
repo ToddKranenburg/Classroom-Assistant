@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import CategoryBreakdownChart from './CategoryBreakdownChart';
+import CategoryTimeline from './CategoryTimeline';
 
 function SummaryGenerator() {
   const [transcript, setTranscript] = useState('');
@@ -71,6 +72,7 @@ function SummaryGenerator() {
 
           {/* Add this below the assignment section */}
           <CategoryBreakdownChart breakdown={summary.category_breakdown} />
+          <CategoryTimeline timeline={summary.category_timeline} />
 
           <h3>Make-Up Assignment</h3>
           <ol>
