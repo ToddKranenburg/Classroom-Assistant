@@ -27,5 +27,5 @@ You can generate or manage your API key at:
     npm install
     # Start the backend
     node server.js
-    # In a separate terminal, start the frontend
+    # In a separate terminal, start the frontend (Vite)
     npm run dev
