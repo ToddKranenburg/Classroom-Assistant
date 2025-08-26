@@ -8,6 +8,11 @@ import { fileURLToPath } from 'url';
 import { OpenAI } from 'openai';
 import dotenv from 'dotenv';
 
+console.log("✅ Server starting...");
+console.log("🔑 OPENAI_API_KEY exists?", !!process.env.OPENAI_API_KEY);
+console.log("🌍 PORT:", process.env.PORT);
+console.log("📁 Working directory:", process.cwd());
+
 dotenv.config();
 
 const app = express();
