@@ -7,15 +7,21 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { OpenAI } from 'openai';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const app = express();
 const port = 3001;
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 app.use(cors());
 app.use(express.json());
+
+const uploadDir = path.join(process.cwd(), "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // === Handle file uploads ===
 const __filename = fileURLToPath(import.meta.url);
