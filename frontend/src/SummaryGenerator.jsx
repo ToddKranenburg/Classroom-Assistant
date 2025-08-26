@@ -24,7 +24,7 @@ function SummaryGenerator() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const transcriptionRes = await axios.post('http://localhost:3001/api/transcribe', formData, {
+      const transcriptionRes = await axios.post('https://classroom-assistant-production.up.railway.app/api/transcribe', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -32,7 +32,7 @@ function SummaryGenerator() {
       setTranscript(transcriptText);
       setProgress('Summarizing…');
 
-      const summaryRes = await axios.post('http://localhost:3001/api/summarize', { transcript: transcriptText });
+      const summaryRes = await axios.post('https://classroom-assistant-production.up.railway.app/api/summarize', { transcript: transcriptText });
       setSummary(summaryRes.data);
     } catch (err) {
       console.error('Error during upload:', err);
