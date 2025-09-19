@@ -26,6 +26,7 @@ function App() {
   return (
     <div className="app">
       <h1>🎙️ Class Summary Generator</h1>
+      Record a lesson, upload it, and get a summary along with a breakdown of activities.
       <SummaryGenerator onExampleUpload={exampleUploadRef} />
       <button onClick={handleLoadExample} disabled={loadingExample} style={{ marginBottom: 16 }}>
         {loadingExample ? 'Loading Example...' : 'Try Example Audio'}
