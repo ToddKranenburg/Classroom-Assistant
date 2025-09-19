@@ -6,15 +6,20 @@ import CategoryTimeline from './CategoryTimeline';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-function SummaryGenerator() {
+function SummaryGenerator({ onExampleUpload }) {
   const [transcript, setTranscript] = useState('');
   const [showFullTranscript, setShowFullTranscript] = useState(false);
   const [summary, setSummary] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState('');
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
+  const handleFileUpload = async (eOrFile) => {
+    let file;
+    if (eOrFile && eOrFile.target) {
+      file = eOrFile.target.files[0];
+    } else {
+      file = eOrFile;
+    }
     if (!file) return;
 
     setIsLoading(true);
@@ -44,6 +49,13 @@ function SummaryGenerator() {
     setIsLoading(false);
     setProgress('');
   };
+
+  // Allow parent to trigger example upload
+  React.useEffect(() => {
+    if (onExampleUpload) {
+      onExampleUpload.current = handleFileUpload;
+    }
+  }, [onExampleUpload]);
 
   const MAX_CHARS = 300;
   const shortTranscript = transcript.length > MAX_CHARS ? transcript.slice(0, MAX_CHARS) + '…' : transcript;
