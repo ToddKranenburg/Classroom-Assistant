@@ -20,7 +20,8 @@ const app = express();
 // === CORS CONFIG ===
 const allowedOrigins = [
   'http://localhost:5173', // Vite local dev server
-  'https://classroom-assistant-r2w4e06zw-toddkranenburgs-projects.vercel.app', // Vercel frontend
+  'https://classroom-assistant-r2w4e06zw-toddkranenburgs-projects.vercel.app',
+  'https://teachwith.co'
 ];
 
 app.use(
