@@ -9,7 +9,7 @@ function App() {
     setLoadingExample(true);
     try {
       // Fetch the example audio file from the public/src directory
-      const response = await fetch('src/example-ela-audio.mp3');
+      const response = await fetch('/example-ela-audio.mp3');
       const blob = await response.blob();
       // Create a File object (name can be anything)
       const file = new File([blob], 'example-ela-audio.mp3', { type: blob.type });
