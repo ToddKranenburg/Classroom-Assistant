@@ -2,6 +2,8 @@
 
 A web app that records classroom audio, transcribes it using OpenAI Whisper, provides a breakdown of how time was spent, and generates a summary using GPT for students who were absent.
 
+Test it at [teachwith.co](https://teachwith.co/)
+
 ![Example](./frontend/public/Preview.png)
 
 ## Stack
